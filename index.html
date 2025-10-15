@@ -3,135 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Calculator</title>
+    <title>Advanced Calculator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f8f9fa;
+            transition: background-color 0.3s, color 0.3s;
         }
-        #calculator {
-            width: 100%;
-            max-width: 320px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+        .calculator {
+            max-width: 400px;
+            margin: 50px auto;
         }
-        #display {
-            width: 100%;
+        .dark-theme {
+            background-color: #333;
+            color: #fff;
+        }
+        .history {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .display {
             height: 50px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             font-size: 24px;
-            text-align: right;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-        }
-        .btn {
-            width: 100%;
-            font-size: 20px;
-            margin: 5px 0;
         }
     </style>
 </head>
 <body>
-    <div id="calculator" class="container">
-        <!-- Display for the calculator -->
-        <input type="text" id="display" class="form-control" disabled>
-        <!-- Calculator buttons -->
-        <div class="row gx-2">
-            <div class="col-3"><button class="btn btn-light" onclick="appendNumber(7)">7</button></div>
-            <div class="col-3"><button class="btn btn-light" onclick="appendNumber(8)">8</button></div>
-            <div class="col-3"><button class="btn btn-light" onclick="appendNumber(9)">9</button></div>
-            <div class="col-3"><button class="btn btn-warning" onclick="selectOperation('/')">/</button></div>
-            <div class="col-3"><button class="btn btn-light" onclick="appendNumber(4)">4</button></div>
-            <div class="col-3"><button class="btn btn-light" onclick="appendNumber(5)">5</button></div>
-            <div class="col-3"><button class="btn btn-light" onclick="appendNumber(6)">6</button></div>
-            <div class="col-3"><button class="btn btn-warning" onclick="selectOperation('*')">×</button></div>
-            <div class="col-3"><button class="btn btn-light" onclick="appendNumber(1)">1</button></div>
-            <div class="col-3"><button class="btn btn-light" onclick="appendNumber(2)">2</button></div>
-            <div class="col-3"><button class="btn btn-light" onclick="appendNumber(3)">3</button></div>
-            <div class="col-3"><button class="btn btn-warning" onclick="selectOperation('-')">-</button></div>
-            <div class="col-3"><button class="btn btn-light" onclick="appendNumber(0)">0</button></div>
-            <div class="col-3"><button class="btn btn-light" onclick="clearDisplay()">C</button></div>
-            <div class="col-3"><button class="btn btn-success" onclick="calculateResult()">=</button></div>
-            <div class="col-3"><button class="btn btn-warning" onclick="selectOperation('+')">+</button></div>
+
+<div class="container">
+    <div class="calculator card">
+        <div class="card-body">
+            <!-- Display -->
+            <input type="text" class="form-control display text-end" id="display" readonly>
+            <!-- History -->
+            <div class="history mb-3" id="history"></div>
+            <!-- Theme Toggle -->
+            <div class="text-end mb-3">
+                <button class="btn btn-secondary" id="themeToggle">Toggle Theme</button>
+            </div>
+            <!-- Calculator Buttons -->
+            <div class="row mb-1">
+                <button class="col btn btn-light">7</button>
+                <button class="col btn btn-light">8</button>
+                <button class="col btn btn-light">9</button>
+                <button class="col btn btn-warning">/</button>
+                <button class="col btn btn-dark" id="sqrt">√</button>
+            </div>
+            <div class="row mb-1">
+                <button class="col btn btn-light">4</button>
+                <button class="col btn btn-light">5</button>
+                <button class="col btn btn-light">6</button>
+                <button class="col btn btn-warning">*</button>
+                <button class="col btn btn-dark" id="percent">%</button>
+            </div>
+            <div class="row mb-1">
+                <button class="col btn btn-light">1</button>
+                <button class="col btn btn-light">2</button>
+                <button class="col btn btn-light">3</button>
+                <button class="col btn btn-warning">-</button>
+                <button class="col btn btn-dark" id="memoryAdd">M+</button>
+            </div>
+            <div class="row mb-1">
+                <button class="col btn btn-light">0</button>
+                <button class="col btn btn-light">.</button>
+                <button class="col btn btn-danger">C</button>
+                <button class="col btn btn-warning">+</button>
+                <button class="col btn btn-dark" id="memorySubtract">M-</button>
+            </div>
+            <div class="row">
+                <button class="col btn btn-success" id="equals">=</button>
+                <button class="col btn btn-dark" id="memoryRecall">MR</button>
+                <button class="col btn btn-dark" id="memoryClear">MC</button>
+            </div>
         </div>
     </div>
+</div>
 
-    <script>
-        let currentInput = '';
-        let operation = null;
-        let firstOperand = '';
+<script>
+    let display = document.getElementById('display');
+    let history = document.getElementById('history');
+    let themeToggle = document.getElementById('themeToggle');
+    
+    let memoryValue = 0;
+    let storedCalculations = [];
 
-        // Append number to the current input
-        function appendNumber(number) {
-            currentInput += number;
-            updateDisplay();
+    function updateDisplay(value) {
+        display.value = value;
+    }
+
+    function addToHistory(expression) {
+        if (storedCalculations.length >= 5) {
+            storedCalculations.shift(); // Remove oldest
         }
+        storedCalculations.push(expression);
+        history.innerHTML = storedCalculations.map(item => `<div>${item}</div>`).join('');
+    }
 
-        // Select an arithmetic operation
-        function selectOperation(op) {
-            if (currentInput === '') return;
-            if (firstOperand !== '') {
-                calculateResult();
-            }
-            operation = op;
-            firstOperand = currentInput;
-            currentInput = '';
+    // Memory Functions
+    document.getElementById('memoryAdd').onclick = () => { memoryValue += parseFloat(display.value || 0); };
+    document.getElementById('memorySubtract').onclick = () => { memoryValue -= parseFloat(display.value || 0); };
+    document.getElementById('memoryRecall').onclick = () => { updateDisplay(memoryValue); };
+    document.getElementById('memoryClear').onclick = () => { memoryValue = 0; };
+
+    // Theme Toggle
+    themeToggle.onclick = () => {
+        document.body.classList.toggle('dark-theme');
+    };
+
+    // Calculation Logic
+    let expr = '';
+    document.querySelectorAll('.btn-light').forEach(button => {
+        button.onclick = () => {
+            expr += button.innerText;
+            updateDisplay(expr);
+        };
+    });
+
+    document.querySelector('.btn-warning').onclick = () => {
+        expr += ` ${event.target.innerText} `;
+        updateDisplay(expr);
+    };
+
+    document.getElementById('equals').onclick = () => {
+        try {
+            let result = eval(expr);
+            addToHistory(`${expr} = ${result}`);
+            updateDisplay(result);
+            expr = `${result}`;
+        } catch (_) {
+            updateDisplay('Error');
+            expr = '';
         }
+    };
 
-        // Calculate the result based on the selected operation
-        function calculateResult() {
-            let result;
-            const num1 = parseFloat(firstOperand);
-            const num2 = parseFloat(currentInput);
-            if (isNaN(num1) || isNaN(num2)) return;
+    document.querySelector('.btn-danger').onclick = () => {
+        expr = '';
+        updateDisplay('');
+    };
 
-            switch (operation) {
-                case '+':
-                    result = num1 + num2;
-                    break;
-                case '-':
-                    result = num1 - num2;
-                    break;
-                case '*':
-                    result = num1 * num2;
-                    break;
-                case '/':
-                    if (num2 === 0) {
-                        alert("Cannot divide by zero!");
-                        clearDisplay();
-                        return;
-                    }
-                    result = num1 / num2;
-                    break;
-                default:
-                    return;
-            }
-
-            currentInput = result;
-            operation = null;
-            firstOperand = '';
-            updateDisplay();
+    document.getElementById('sqrt').onclick = () => {
+        let value = parseFloat(display.value || 0);
+        if (value < 0) {
+            updateDisplay('Error');
+        } else {
+            let result = Math.sqrt(value);
+            addToHistory(`√${value} = ${result}`);
+            updateDisplay(result);
+            expr = `${result}`;
         }
+    };
 
-        // Clear the display
-        function clearDisplay() {
-            currentInput = '';
-            operation = null;
-            firstOperand = '';
-            updateDisplay();
-        }
-
-        // Update the display
-        function updateDisplay() {
-            document.getElementById('display').value = currentInput;
-        }
-    </script>
+    document.getElementById('percent').onclick = () => {
+        let value = parseFloat(display.value || 0);
+        let result = value / 100;
+        addToHistory(`${value}% = ${result}`);
+        updateDisplay(result);
+        expr = `${result}`;
+    };
+</script>
 </body>
 </html>
