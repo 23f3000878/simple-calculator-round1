@@ -1,46 +1,58 @@
 # Simple Calculator
 
 ## Description
-The **Simple Calculator** is a web application that provides a clean and modern interface for performing basic arithmetic operations including addition, subtraction, multiplication, and division. Designed for ease of use, this calculator features intuitive number and operation buttons, a clear button, and a prominently displayed result area.
+The Simple Calculator is a versatile application designed for basic and advanced calculations. With an intuitive user interface and support for both light and dark themes, this calculator is perfect for everyday calculations and more complex mathematical operations. Whether you need to add, subtract, multiply, or perform advanced functions like percentage calculations and square roots, this calculator has you covered.
 
 ## Features
-- **Basic Arithmetic Operations**: Supports addition (+), subtraction (-), multiplication (*), and division (/).
-- **User-Friendly Interface**: Clean, modern design with responsive layout.
-- **Number Pad**: Buttons for digits 0-9 for easy input.
-- **Clear Functionality**: A clear button (C) to reset the calculator.
-- **Large Display**: Easily readable result display for user convenience.
+- **Basic Operations**: Addition, subtraction, multiplication, and division.
+- **Advanced Features**:
+  - Memory functions: M+, M-, MR, MC to store and recall values.
+  - Percentage button (%) for quick calculations involving percentages.
+  - Square root button (√) for easy access to root calculations.
+  -**Calculation History**: Keeps track of the last 5 calculations for easy review.
+- **Theme Toggle**: Dark/light theme toggle for personalized user experience.
+- **Responsive Design**: Optimized for both desktop and mobile use.
+
+## Recent Updates
+- **Memory Functions**: Introduced M+, M-, MR, MC for value storage and retrieval.
+- **Percentage Calculation**: Added functionality for percentage operations.
+- **Square Root Functionality**: Users can now calculate square roots easily with a dedicated button.
+- **Calculation History**: Added a feature that shows the last 5 calculations performed for review.
+- **Dark/Light Theme**: Users can switch between themes for improved visibility and preference.
 
 ## Setup Instructions
-To get started with the Simple Calculator, follow these steps:
-
-1. **Clone the Repository**:
-    ```bash
-    git clone https://github.com/your-username/simple-calculator.git
-    cd simple-calculator
-    ```
-
-2. **Open the Project**:
-   - Open the `index.html` file in your preferred web browser.
-
-3. **Dependencies**:
-   - This project does not require any additional libraries or frameworks. It runs entirely on HTML, CSS, and JavaScript.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/yourusername/simple-calculator.git
+   cd simple-calculator
+   ```
+2. **Install dependencies** (if any):
+   ```bash
+   npm install
+   ```
+3. **Run the application**:
+   ```bash
+   npm start
+   ```
+4. Open your browser and navigate to `http://localhost:3000` to see the calculator in action.
 
 ## Usage
-1. Enter numbers using the number buttons.
-2. Select an arithmetic operation button (+, -, *, /).
-3. Enter another number.
-4. Press the equals button (=) to see the result.
-5. Use the clear button (C) to reset the calculator.
+- To perform calculations, simply enter numbers and select the desired operation.
+- Use the memory functions to store results:
+  - **M+**: Add the current value to memory.
+  - **M-**: Subtract the current value from memory.
+  - **MR**: Recall the value from memory.
+  - **MC**: Clear the memory.
+- Calculate percentages by pressing the % button.
+- Calculate square roots by pressing the √ button.
+- Review your last 5 calculations displayed on the screen.
 
 ## Code Explanation
-The code is structured into three main files:
-- **HTML (index.html)**: Contains the layout of the calculator, including buttons and display.
-- **CSS (styles.css)**: Provides styling for the overall look and feel, ensuring a modern appearance.
-- **JavaScript (script.js)**: Handles the logic for button clicks, performs calculations, and updates the display with results.
+The project is built using HTML, CSS, and JavaScript. The main logic is handled in JavaScript, where user inputs trigger functions for calculations, memory handling, and history tracking. The UI is created using responsive design principles to ensure compatibility across devices.
 
 ## License
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-Feel free to contribute to this project by opening issues or submitting pull requests! Your feedback and improvements are always welcome. Happy calculating!
+This updated README provides a comprehensive overview of the Simple Calculator and its new features, ensuring users have all the information they need to utilize the application effectively.
